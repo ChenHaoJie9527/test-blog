@@ -1,6 +1,7 @@
 ---
 import "../styles/globals.css"
 import Navigation from "./components/Navigation.astro";
+import Footer from "./components/Footer.astro";
 const pageTitle = "关于我"
 const identity = {
     firstName: "沙拉",
@@ -60,5 +61,6 @@ const textCase = "uppercase";
     {finnish && <p>我完成了这节教程！</p>}
 
     {goal === 3 ? <p>我的目标是在三天内完成。</p> : <p>我的目标不是 3 天。</p>}
+    <Footer />
   </body>
 </html>
