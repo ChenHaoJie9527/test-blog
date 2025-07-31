@@ -10,6 +10,9 @@ const skills = ["HTML", "CSS", "JavaScript", "React", "Astro", "Vue", "Node.js",
 const happy = true;
 const finnish = false;
 const goal = 3;
+const skillColor = "blue";
+const fontWeight = "bold";
+const textCase = "uppercase";
 ---
 <html lang="zh-CN">
   <head>
@@ -17,6 +20,17 @@ const goal = 3;
     <meta name="viewport" content="width=device-width" />
     <title>{pageTitle}</title>
   </head>
+  <style define:vars={{skillColor, fontWeight, textCase}}>
+    h1 {
+        color: purple;
+        font-size: 4em;
+    }
+    .skill {
+        color: var(--skillColor);
+        font-weight: var(--fontWeight);
+        text-transform: var(--textCase);
+    }
+  </style>
   <body>
     <a href="/">首页</a>
     <a href="/about/">关于</a>
@@ -29,10 +43,10 @@ const goal = 3;
     <p>随着我完成更多教程，该站点将更新，所以请继续查看我的旅程将如何进行吧！</p>
     <p>以下是我的个人信息：</p>
     <ul>
-        <li>姓名：{identity.firstName}</li>
-        <li>国籍：{identity.country}</li>
-        <li>职业：{identity.occupation}</li>
-        <li>爱好：{identity.hobbies.join(", ")}</li>
+        <li class="skill">姓名：{identity.firstName}</li>
+        <li class="skill">国籍：{identity.country}</li>
+        <li class="skill">职业：{identity.occupation}</li>
+        <li class="skill">爱好：{identity.hobbies.join(", ")}</li>
     </ul>
     <p>以下是我的技能：</p>
     <ul>
