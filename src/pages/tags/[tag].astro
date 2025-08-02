@@ -6,24 +6,29 @@ export async function getStaticPaths() {
     // 构建时执行一次，获取所有文章
     const postsAll = Object.values(import.meta.glob('../posts/*.md', {eager: true}))
     
-    // 提取所有唯一的标签
-    const allTags = [...new Set(postsAll.flatMap((post: any) => post.frontmatter.tags))]
-    
-    // 为每个标签生成路由
-    return allTags.map(tag => ({
-        params: { tag },
-        props: { posts: postsAll }
-    }));
+    const uniqueTags = [...new Set(postsAll.map((post: any) => post.frontmatter.tags).flat())]
+
+    return uniqueTags.map((tag) => {
+        const filteredPosts = postsAll.filter((post: any) => post.frontmatter.tags.includes(tag))
+        return {
+            params: {
+                tag
+            },
+            props: {
+                posts: filteredPosts
+            }
+        }
+    })
+
 }
 
 const {tag} = Astro.params
 const {posts} = Astro.props
-const postsByTag = posts.filter((post: any) => post.frontmatter.tags.includes(tag))
 ---
 <BaseLayout pageTitle={`${tag}`}>
     <p>包含「{tag}」标签的文章</p>
     <ul>
-        {postsByTag.map((post: any) => (
+        {posts.map((post: any) => (
             <BlogPost url={post.url} title={post.frontmatter.title} />
         ))}
     </ul>
