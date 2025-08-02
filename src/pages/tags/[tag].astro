@@ -1,20 +1,30 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import BlogPost from "../components/BlogPost.astro";
 
 export async function getStaticPaths() {
-    return [
-    { params: { tag: "astro" } },
-    { params: { tag: "successes" } },
-    { params: { tag: "community" } },
-    { params: { tag: "blogging" } },
-    { params: { tag: "setbacks" } },
-    { params: { tag: "learning in public" } },
-    { params: { tag: "newTags" } },
-  ];
+    // 构建时执行一次，获取所有文章
+    const postsAll = Object.values(import.meta.glob('../posts/*.md', {eager: true}))
+    
+    // 提取所有唯一的标签
+    const allTags = [...new Set(postsAll.flatMap((post: any) => post.frontmatter.tags))]
+    
+    // 为每个标签生成路由
+    return allTags.map(tag => ({
+        params: { tag },
+        props: { posts: postsAll }
+    }));
 }
 
 const {tag} = Astro.params
+const {posts} = Astro.props
+const postsByTag = posts.filter((post: any) => post.frontmatter.tags.includes(tag))
 ---
 <BaseLayout pageTitle={`${tag}`}>
     <p>包含「{tag}」标签的文章</p>
+    <ul>
+        {postsByTag.map((post: any) => (
+            <BlogPost url={post.url} title={post.frontmatter.title} />
+        ))}
+    </ul>
 </BaseLayout>
