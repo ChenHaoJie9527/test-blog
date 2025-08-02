@@ -12,15 +12,41 @@ const { frontmatter } = Astro.props;
     {frontmatter.image && (
       <img src={frontmatter.image.url} alt={frontmatter.image.alt} />
     )}
-    {frontmatter.tags && (
-      <div class="tags">
-        {frontmatter.tags.map(tag => <span class="tag">{tag}</span>)}
-      </div>
-    )}
   </header>
   
   <main>
+    <ul class="tags">
+      {frontmatter.tags.map((tag: string) => (
+          <li class="tag-item">
+              <a href={`/tags/${tag}`}>{tag}</a>
+          </li>
+      ))}
+    </ul>
     <slot />
   </main>
 </article>
 </BaseLayout>
+
+
+<style>
+  .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+  }
+  .tag-item {
+      list-style: none;
+      margin: 0.25em;
+      border: dotted 1px #a1a1a1;
+      border-radius: .5em;
+      padding: .5em 1em;
+      font-size: 1.15em;
+      background-color: #F8FCFD;
+      color: #333;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      &:hover {
+          background-color: #e0e0e0;
+      }
+  }
+</style>
