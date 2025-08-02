@@ -7,4 +7,10 @@ import preact from "@astrojs/preact";
 export default defineConfig({
   site: "https://www.example.com",
   integrations: [preact()],
+  markdown: {
+    shikiConfig: {
+      theme: "github-dark",
+      wrap: true
+    }
+  }
 });
